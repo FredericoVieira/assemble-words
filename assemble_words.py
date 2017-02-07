@@ -18,23 +18,20 @@ def possibleWordsByLength(inputed_letters_length):
 def possibleWordsByMatch(possible_words_by_length, inputed_letters):
 
     possible_words_by_match = []
-    remaing_letters = []
 
     for word in possible_words_by_length:
         aux_word = word['word']
+        remaing_letters = inputed_letters
         for letter in inputed_letters:
 
-            if letter in word['word']:
+            if letter in aux_word:
                 aux_word = aux_word.replace(letter, '_', 1)
-            else:
-                remaing_letters.append(letter)
-                #needs to fixes remaing_letters for used and repeated letters
+                remaing_letters = remaing_letters.replace(letter, '', 1)
                 
-        if aux_word.count('_') == len(aux_word):
-            word['remaing_letters'] = remaing_letters
-            possible_words_by_match.append(word)
-
-        remaing_letters = []
+            if aux_word.count('_') == len(aux_word):
+                word['remaing_letters'] = remaing_letters
+                possible_words_by_match.append(word)
+                break
 
     return possible_words_by_match
 
@@ -89,5 +86,7 @@ if __name__ == '__main__':
     possible_words_by_match = possibleWordsByMatch(possible_words_by_length, inputed_letters)
     score_words = scoreWords(possible_words_by_match)
     best_choice = bestChoice(score_words)
+
+    print(possible_words_by_match)
 
     print best_choice if best_choice else 'No word found for the combination of inputed letters...'
