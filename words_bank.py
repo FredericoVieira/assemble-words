@@ -1,4 +1,4 @@
-#encoding: utf-8
+#coding: utf-8
 
 words_bank = [
     "Abacaxi", "Manada", "mandar", "porta", "mesa", "Dado", "Mangas", "Já", "coisas", "radiografia",

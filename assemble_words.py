@@ -1,5 +1,3 @@
-#encoding: utf-8
-
 from words_bank import words_bank
 from letter_values import letter_values
 
@@ -10,7 +8,7 @@ def possibleWordsByLength(inputed_letters_length):
 
     for word in words_bank:
         if len(word) <= inputed_letters_length:
-            possible_words_by_length.append({'word': word.lower(), 'length': len(word)})
+            possible_words_by_length.append({'word': word.lower(), 'length': len(word.decode('utf-8'))})
 
     return possible_words_by_length
 
@@ -21,15 +19,15 @@ def possibleWordsByMatch(possible_words_by_length, inputed_letters):
 
     for word in possible_words_by_length:
         aux_word = word['word']
-        remaing_letters = inputed_letters
+        remaining_letters = inputed_letters
         for letter in inputed_letters:
 
             if letter in aux_word:
                 aux_word = aux_word.replace(letter, '_', 1)
-                remaing_letters = remaing_letters.replace(letter, '', 1)
+                remaining_letters = remaining_letters.replace(letter, '', 1)
                 
             if aux_word.count('_') == len(aux_word):
-                word['remaing_letters'] = remaing_letters
+                word['remaining_letters'] = remaining_letters
                 possible_words_by_match.append(word)
                 break
 
@@ -74,10 +72,8 @@ def bestChoice(score_words):
 
 
 if __name__ == '__main__':
-    try:
-        inputed_letters = raw_input('Input avaible letters for this move:')
-    except ValueError:
-        print 'Not a valid input!'
+    
+    inputed_letters = raw_input('Input avaible letters for this move:')
 
     ''.join(char for char in inputed_letters if char.isalnum())
     inputed_letters = inputed_letters.replace('_', '')
@@ -87,6 +83,6 @@ if __name__ == '__main__':
     score_words = scoreWords(possible_words_by_match)
     best_choice = bestChoice(score_words)
 
-    print(possible_words_by_match)
-
-    print best_choice if best_choice else 'No word found for the combination of inputed letters...'
+    print 'word: {0}, length: {1}, score: {2}, remaining letters: {3}' \
+        .format(best_choice['word'], best_choice['length'], best_choice['score'], best_choice['remaining_letters']) \
+        if best_choice else 'No word found for the combination of inputed letters...'
